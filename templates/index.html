@@ -1,14 +1,40 @@
-Hello world
-<br>
+<style>
+.tweet {
+    display: inline-block;
+    margin-bottom: 5px;
+}
 
+.tweet_img {
+    float: right;
+    margin-right: 5px;
+}
+
+.user_feed {
+    margin: auto;
+    background-color: red;
+    width: 80%;
+}
+
+.tweet_img {
+    float: left;
+}
+
+</style>
 {% if timelines %}
     {% for user in timelines %}
-        {{user}}
-        <br>
-        {% for tweet in timelines[user] %}
-            <img src="{{tweet.user.profile_image_url}}" alt={{user}}>
-            {{tweet.text}}
-            <br><br>
-        {% endfor %}
+        <div class="user_feed">
+            {{user}}
+            <br>
+            {% for tweet in timelines[user] %}
+                <div class="tweet">
+                    <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
+                    <div class="tweet_text"> 
+                        {{tweet.text}}
+                    </div>
+                 </div>
+            {% endfor %}
+            
+        </div>
+
     {% endfor %}
 {% endif %}
