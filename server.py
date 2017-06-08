@@ -33,7 +33,7 @@ def oauth_req(url, key, secret, http_method="GET", post_body="", http_headers=No
 def main():
     server = WSGIServer(("", 5000,), app)
     for target in targets:
-        timeline = oauth_req("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=realDonaldTrump&count=2", ACCESS_KEY, ACCESS_SECRET)
+        timeline = oauth_req("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=realDonaldTrump&count=10", ACCESS_KEY, ACCESS_SECRET)
         timelines[target] = timeline
     server.serve_forever()
 
