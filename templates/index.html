@@ -1,0 +1,14 @@
+Hello world
+<br>
+
+{% if timelines %}
+    {% for user in timelines %}
+        {{user}}
+        <br>
+        {% for tweet in timelines[user] %}
+            <img src="{{tweet.user.profile_image_url}}" alt={{user}}>
+            {{tweet.text}}
+            <br><br>
+        {% endfor %}
+    {% endfor %}
+{% endif %}
