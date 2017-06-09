@@ -15,19 +15,18 @@ CONSUMER_SECRET = config.CONSUMER_SECRET
 ACCESS_KEY = config.ACCESS_KEY
 ACCESS_SECRET = config.ACCESS_SECRET
 
-targets = ["realDonaldTrump"]
+targets = sorted(["realDonaldTrump", "twitterapi"])
 timelines = {}
 
 @app.route("/")
 def index():
-    print(timelines)
-    return render_template("index.html", timelines=timelines)
+    return render_template("index.html", getFeed=getFeed, targets=targets)
 
 
 @app.route("/follow/<screen_name>")
 def getFeed(screen_name):
     timeline = getTimeline(screen_name)
-    return render_template("index.html", timelines={screen_name: timeline})
+    return render_template("follow/index.html", timelines={screen_name: timeline}, targets=targets, getFeed=getFeed)
 
 
 
