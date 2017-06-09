@@ -1,0 +1,21 @@
+{% include 'menu.html' %}
+
+
+{% if timelines %}
+    {% for user in timelines %}
+        <div class="user_feed">
+            {{user}}
+            <br>
+            {% for tweet in timelines[user] %}
+                <div class="tweet">
+                    <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
+                    <div class="tweet_text"> 
+                        {{tweet.text}}
+                    </div>
+                 </div>
+            {% endfor %}
+            
+        </div>
+
+    {% endfor %}
+{% endif %}
