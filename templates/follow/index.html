@@ -1,10 +1,11 @@
+{% include 'base.html' %}
 {% include 'menu.html' %}
 
 
 {% if timelines %}
     {% for user in timelines %}
+        {{user}}
         <div class="user_feed">
-            {{user}}
             <br>
             {% for tweet in timelines[user] %}
                 <div class="tweet">
