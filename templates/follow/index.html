@@ -8,12 +8,14 @@
         <div class="user_feed">
             <br>
             {% for tweet in timelines[user] %}
-                <div class="tweet">
-                    <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
-                    <div class="tweet_text"> 
-                        {{tweet.text}}
+                <a href="https://twitter.com/{{user}}/status/{{tweet.id}}" target="_blank">
+                    <div class="tweet">
+                        <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
+                        <div class="tweet_text"> 
+                            {{tweet.text}}
+                        </div>
                     </div>
-                 </div>
+                </a>
             {% endfor %}
             
         </div>
