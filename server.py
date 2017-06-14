@@ -9,24 +9,28 @@ import requests
 
 app = Flask(__name__)
 
-
+# Get these info by creating twitter app
 CONSUMER_KEY = config.CONSUMER_KEY
 CONSUMER_SECRET = config.CONSUMER_SECRET
 ACCESS_KEY = config.ACCESS_KEY
 ACCESS_SECRET = config.ACCESS_SECRET
 
-targets = sorted(["realDonaldTrump", "twitterapi"])
-timelines = {}
+# Sort users in alphebetical order 
+follow_users = sorted(["realDonaldTrump", "twitterapi"])
+
 
 @app.route("/")
 def index():
-    return render_template("index.html", getFeed=getFeed, targets=targets)
+    return render_template("index.html", getFeed=getFeed, follow_users=follow_users)
 
 
 @app.route("/follow/<screen_name>")
 def getFeed(screen_name):
     timeline = getTimeline(screen_name)
-    return render_template("follow/index.html", timelines={screen_name: timeline}, targets=targets, getFeed=getFeed)
+    log = open("log.json", "w")
+    json.dump(timeline,log)
+    log.close()
+    return render_template("follow/index.html", timelines={screen_name: timeline}, follow_users=follow_users, getFeed=getFeed)
 
 
 
@@ -39,14 +43,11 @@ def oauth_req(url, key, secret, http_method="GET", post_body="", http_headers=No
     return json.loads(content)
 
 def getTimeline(screen_name):
-    timeline = oauth_req("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=10" % screen_name, ACCESS_KEY, ACCESS_SECRET)
+    timeline = oauth_req("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=25" % screen_name, ACCESS_KEY, ACCESS_SECRET)
     return timeline 
 
 def main():
     server = WSGIServer(("", 5000,), app)
-    for target in targets:
-        timelines[target] = getTimeline(target)
-
     server.serve_forever()
 
 
