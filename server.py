@@ -27,9 +27,6 @@ def index():
 @app.route("/follow/<screen_name>")
 def getFeed(screen_name):
     timeline = getTimeline(screen_name)
-    log = open("log.json", "w")
-    json.dump(timeline,log)
-    log.close()
     return render_template("follow/index.html", timelines={screen_name: timeline}, follow_users=follow_users, getFeed=getFeed)
 
 
