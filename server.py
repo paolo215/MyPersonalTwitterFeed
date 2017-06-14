@@ -7,7 +7,7 @@ import json
 import requests
 
 
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 # Get these info by creating twitter app
 CONSUMER_KEY = config.CONSUMER_KEY
