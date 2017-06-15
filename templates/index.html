@@ -6,7 +6,7 @@
         {% for tweet in feeds %}
             <div class="tweet">
                 <div class="tweet-content">
-                    <a href="https://twitter.com/{{user}}/status/{{tweet.id}}" target="_blank">
+                    <a href="https://twitter.com/{{tweet.user.screen_name}}/status/{{tweet.id}}" target="_blank">
                         <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
                         <br>
                         <div class="tweet_text"> 
