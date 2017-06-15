@@ -4,6 +4,7 @@ from gevent.wsgi import WSGIServer
 import oauth2
 import config
 import json
+import os
 import requests
 
 
@@ -15,8 +16,9 @@ CONSUMER_SECRET = config.CONSUMER_SECRET
 ACCESS_KEY = config.ACCESS_KEY
 ACCESS_SECRET = config.ACCESS_SECRET
 
-# Sort users in alphebetical order 
-follow_users = sorted(["realDonaldTrump", "twitterapi"])
+
+filename = "follow.txt"
+follow_users = []
 
 
 @app.route("/")
@@ -43,8 +45,20 @@ def getTimeline(screen_name):
     timeline = oauth_req("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=25" % screen_name, ACCESS_KEY, ACCESS_SECRET)
     return timeline 
 
+def extract_following(filename):
+    log = open(filename, "r")
+    data = log.read().split("\n")
+    log.close()
+    return data
+
+
 def main():
     server = WSGIServer(("", 5000,), app)
+
+    if os.path.exists(filename):
+        global follow_users
+        follow_users = extract_following(filename)
+         
     server.serve_forever()
 
 
