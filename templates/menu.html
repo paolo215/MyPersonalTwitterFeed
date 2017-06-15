@@ -1,3 +1,9 @@
-{% for user in follow_users %}
-    <a href="/follow/{{user}}">{{user}}</a>
-{% endfor %}
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            {% for user in follow_users %}
+                <li><a href="/follow/{{user}}">{{user}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</nav>

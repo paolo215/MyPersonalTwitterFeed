@@ -1,24 +1,26 @@
 {% include 'base.html' %}
 {% include 'menu.html' %}
 
-
-{% if timelines %}
-    {% for user in timelines %}
-        {{user}}
-        <div class="user_feed">
-            <br>
-            {% for tweet in timelines[user] %}
-                <a href="https://twitter.com/{{user}}/status/{{tweet.id}}" target="_blank">
+    {% if timelines %}
+        {% for user in timelines %}
+            {{user}}
+            <div class="user_feed container-fluid">
+                <br>
+                {% for tweet in timelines[user] %}
                     <div class="tweet">
-                        <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
-                        <div class="tweet_text"> 
-                            {{tweet.text}}
+                        <div class="tweet-content">
+                            <a href="https://twitter.com/{{user}}/status/{{tweet.id}}" target="_blank">
+                                <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
+                                <br>
+                                <div class="tweet_text"> 
+                                    {{tweet.text}}
+                                </div>
+                            </a>
                         </div>
                     </div>
-                </a>
-            {% endfor %}
-            
-        </div>
+                {% endfor %}
+                
+            </div>
 
-    {% endfor %}
-{% endif %}
+        {% endfor %}
+    {% endif %}
