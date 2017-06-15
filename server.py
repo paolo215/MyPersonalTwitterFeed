@@ -6,6 +6,7 @@ import config
 import json
 import os
 import requests
+import datetime
 
 
 app = Flask(__name__, static_url_path='/static')
@@ -23,12 +24,12 @@ follow_users = []
 
 @app.route("/")
 def index():
-    return render_template("index.html", getFeed=getFeed, follow_users=follow_users)
-
+    feeds = get_all_timelines()
+    return render_template("index.html", getFeed=getFeed, follow_users=follow_users, feeds=feeds)
 
 @app.route("/follow/<screen_name>")
 def getFeed(screen_name):
-    timeline = getTimeline(screen_name)
+    timeline = get_timeline(screen_name)
     return render_template("follow/index.html", timelines={screen_name: timeline}, follow_users=follow_users, getFeed=getFeed)
 
 
@@ -41,13 +42,24 @@ def oauth_req(url, key, secret, http_method="GET", post_body="", http_headers=No
     response, content = client.request(url, method=http_method, body=post_body, headers=http_headers)
     return json.loads(content)
 
-def getTimeline(screen_name):
+
+def get_all_timelines():
+    feeds = []
+    for user in follow_users:
+        timeline = get_timeline(user)
+        feeds += timeline
+
+    return reversed(sorted(feeds, key=lambda x: datetime.datetime.strptime(x["created_at"], "%a %b %d %H:%M:%S +0000 %Y")))
+
+
+def get_timeline(screen_name):
     timeline = oauth_req("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=25" % screen_name, ACCESS_KEY, ACCESS_SECRET)
     return timeline 
 
 def extract_following(filename):
     log = open(filename, "r")
     data = log.read().split("\n")
+    data = [f for f in data if f]
     log.close()
     return data
 
