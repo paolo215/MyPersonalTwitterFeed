@@ -27,10 +27,11 @@ def index():
     feeds = get_all_timelines()
     return render_template("index.html", getFeed=getFeed, follow_users=follow_users, feeds=feeds)
 
-@app.route("/follow/<screen_name>")
+
+@app.route("/profile/<screen_name>")
 def getFeed(screen_name):
     timeline = get_timeline(screen_name)
-    return render_template("follow/index.html", timelines={screen_name: timeline}, follow_users=follow_users, getFeed=getFeed)
+    return render_template("profile/index.html", timelines={screen_name: timeline}, follow_users=follow_users, getFeed=getFeed)
 
 
 
