@@ -1,32 +1,32 @@
 {% include 'base.html' %}
 {% include 'menu.html' %}
 
-    {% if timelines %}
-        {% for user in timelines %}
-            <div class="user">
-                <h3>{{user}}</h3>
-            </div>
-            <div class="user_feed container-fluid">
-                <br>
-                {% for tweet in timelines[user] %}
-                    <div class="tweet">
-                        <div class="tweet-content">
-                            <a href="https://twitter.com/{{user}}/status/{{tweet.id}}" target="_blank">
-                                <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
-                                <br>
-                                <div class="tweet_text"> 
-                                    {{tweet.text}}
-                                </div>
-                            </a>
+{% if timelines %}
+    {% for user in timelines %}
+        <div class="user">
+            <h3>{{user}}</h3>
+        </div>
+        <div class="user_feed container-fluid">
+            <br>
+            {% for tweet in timelines[user] %}
+                <div class="tweet">
+                    <div class="tweet-content">
+                        <a href="https://twitter.com/{{user}}/status/{{tweet.id}}" target="_blank">
+                            <img class="tweet_img" src="{{tweet.user.profile_image_url}}" alt={{user}}>
                             <br>
-                            <div class="tweet_created_at">
-                                {{tweet.created_at}}
+                            <div class="tweet_text"> 
+                                {{tweet.text}}
                             </div>
+                        </a>
+                        <br>
+                        <div class="tweet_created_at">
+                            {{tweet.created_at}}
                         </div>
                     </div>
-                {% endfor %}
-                
-            </div>
+                </div>
+            {% endfor %}
+            
+        </div>
 
-        {% endfor %}
-    {% endif %}
+    {% endfor %}
+{% endif %}
