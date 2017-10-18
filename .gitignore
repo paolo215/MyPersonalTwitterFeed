@@ -1,4 +1,4 @@
 config.py
 *.pyc
 *.swp
-bootstrap
+static/bower_components

@@ -65,7 +65,9 @@ def extract_following(filename):
 
 
 def main():
-    server = WSGIServer(("", 5000,), app)
+    port = 5000
+    server = WSGIServer(("", port), app)
+    print("port: " + str(port))
 
     if os.path.exists(filename):
         global follow_users
