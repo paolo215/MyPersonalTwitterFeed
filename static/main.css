@@ -1,5 +1,7 @@
+/* Twitter feed */
+
 .user {
-    width: 100%;
+    width: 80%;
     text-align: center; 
     
 }
@@ -27,12 +29,68 @@
 }
 
 .user_feed {
-    margin: auto;
-    width: 50%;
+    margin: 0 auto;
+    width: 60%;
+    right: 0;
+    position: absolute;
+    display: inline-block;
 }
 
 .tweet_img {
     float: left;
     margin-right: 5px;
 }
+
+/* End twitter feed */
+
+.wrapper {
+    display: flex;
+    align-items: stretch;
+}
+
+#test {
+    background-color: red;
+
+}
+
+#sidebar {
+    width: 200px;
+    height: 100%;
+    background: #C0C0C0;
+    color: #fff;
+    transition: all 0.3s;
+    display: inline-block;
+    position: fixed;
+
+}
+
+a {
+    text-decoration: none;
+}
+
+#sidebar .sidebar-header {
+    padding: 20px;
+    background: #6d7fcc;
+}
+
+#sidebar ul.components {
+    padding: 20px 0;
+    border-bottom: 1px solid #477748b;
+}
+
+#sidebar ul p {
+    color: #fff;
+    padding: 10px;
+}
+
+#sidebar ul li a {
+    padding: 10px;
+    font-size: 1.1em;
+    display: block;
+}
+
+#sidebar ul li a:hover {
+    color: #7386D5;
+}
+
 
