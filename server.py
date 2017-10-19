@@ -1,5 +1,7 @@
 from flask import Flask
 from flask import render_template
+from flask import redirect
+from flask import request
 from gevent.wsgi import WSGIServer
 import oauth2
 import config
@@ -34,6 +36,11 @@ def getFeed(screen_name):
     return render_template("profile/index.html", timelines={screen_name: timeline}, follow_users=follow_users, getFeed=getFeed)
 
 
+@app.route("/addUser", methods=["POST"])
+def addUser():
+    print("test", request.form["user"])
+    print("done");
+    return redirect("/")
 
 # https://dev.twitter.com/oauth/overview/single-user
 def oauth_req(url, key, secret, http_method="GET", post_body="", http_headers=None):

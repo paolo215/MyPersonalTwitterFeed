@@ -1,21 +1,19 @@
-<!--
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <ul class="nav navbar-nav">
-            {% for user in follow_users %}
-                <li><a href="/profile/{{user}}">{{user}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
-</nav>
-
--->
-
 <!-- https://bootstrapious.com/p/bootstrap-sidebar -->
 
 <nav id="sidebar">
     <div class="sidebar-header">
         <h3>Bookmarks</h3>
+        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#addUser">+</button>
+        <br>
+        <br>
+        <div id="addUser" class="collapse">
+            <form action="addUser" method="post">
+                <input class="form-control" type="text" name="user">
+                <br>
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+         
     </div>
 
     <! -- Links -->
