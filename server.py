@@ -2,6 +2,7 @@ from flask import Flask
 from flask import render_template
 from flask import redirect
 from flask import request
+from flask import make_response
 from gevent.wsgi import WSGIServer
 import oauth2
 import config
@@ -21,26 +22,46 @@ ACCESS_SECRET = config.ACCESS_SECRET
 
 
 filename = "follow.txt"
-follow_users = []
-
+delim = ";"
 
 @app.route("/")
 def index():
-    feeds = get_all_timelines()
+    follow_users = []
+    if "follow" in request.cookies:
+        follow_users = get_follow_users()
+
+    feeds = get_all_timelines(follow_users)
     return render_template("index.html", getFeed=getFeed, follow_users=follow_users, feeds=feeds)
 
 
 @app.route("/profile/<screen_name>")
 def getFeed(screen_name):
+    follow_users = []
+    if "follow" in request.cookies:
+        follow_users = get_follow_users()
+
+
+
     timeline = get_timeline(screen_name)
     return render_template("profile/index.html", timelines={screen_name: timeline}, follow_users=follow_users, getFeed=getFeed)
 
 
 @app.route("/addUser", methods=["POST"])
 def addUser():
-    print("test", request.form["user"])
-    print("done");
-    return redirect("/")
+    follow_users = []
+    response = make_response(redirect("/"))
+    if "follow" in request.cookies:
+        follow_users = get_follow_users()
+    else:
+        response.set_cookie("follow", "")
+
+
+    if request.form["user"] and not request.form["user"] in follow_users:
+        response.set_cookie("follow", delim.join(follow_users + [request.form["user"]]))
+
+    return response
+
+
 
 # https://dev.twitter.com/oauth/overview/single-user
 def oauth_req(url, key, secret, http_method="GET", post_body="", http_headers=None):
@@ -51,7 +72,7 @@ def oauth_req(url, key, secret, http_method="GET", post_body="", http_headers=No
     return json.loads(content)
 
 
-def get_all_timelines():
+def get_all_timelines(follow_users):
     feeds = []
     for user in follow_users:
         timeline = get_timeline(user)
@@ -64,22 +85,31 @@ def get_timeline(screen_name):
     timeline = oauth_req("https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=25" % screen_name, ACCESS_KEY, ACCESS_SECRET)
     return timeline 
 
+
+
+def get_follow_users():
+    follow_users = []
+    if "follow" in request.cookies:
+        follow_users = request.cookies["follow"]
+        follow_users = follow_users.split(delim)
+    
+    return follow_users
+
+
+"""
 def extract_following(filename):
     log = open(filename, "r")
     data = log.read().split("\n")
     data = [f for f in data if f]
     log.close()
     return data
-
+"""
 
 def main():
     port = 5000
     server = WSGIServer(("", port), app)
     print("port: " + str(port))
 
-    if os.path.exists(filename):
-        global follow_users
-        follow_users = extract_following(filename)
          
     server.serve_forever()
 
